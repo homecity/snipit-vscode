@@ -1,0 +1,190 @@
+{
+  "name": "snipit-vscode",
+  "displayName": "Snipit.sh - Secure Code Sharing",
+  "description": "Share code snippets securely with AES-256 encryption",
+  "version": "0.1.0",
+  "publisher": "snipit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snipit/snipit-vscode"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Snippets"
+  ],
+  "keywords": [
+    "snippet",
+    "share",
+    "pastebin",
+    "encrypted",
+    "secure",
+    "code sharing"
+  ],
+  "icon": "icon.png",
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "snipit.share",
+        "title": "Share on Snipit.sh",
+        "category": "Snipit",
+        "icon": "$(share)"
+      },
+      {
+        "command": "snipit.paste",
+        "title": "Paste from Snipit.sh",
+        "category": "Snipit",
+        "icon": "$(clippy)"
+      },
+      {
+        "command": "snipit.history.refresh",
+        "title": "Refresh History",
+        "category": "Snipit",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "snipit.history.clear",
+        "title": "Clear History",
+        "category": "Snipit",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "snipit.history.copyUrl",
+        "title": "Copy URL",
+        "category": "Snipit",
+        "icon": "$(copy)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "snipit.share",
+          "when": "editorHasSelection",
+          "group": "9_snipit"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "snipit.history.refresh",
+          "when": "view == snipitHistory",
+          "group": "navigation"
+        },
+        {
+          "command": "snipit.history.clear",
+          "when": "view == snipitHistory",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "snipit.history.copyUrl",
+          "when": "view == snipitHistory",
+          "group": "inline"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "snipit.share",
+        "key": "ctrl+shift+s",
+        "mac": "cmd+shift+s",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "snipit.paste",
+        "key": "ctrl+shift+v",
+        "mac": "cmd+shift+v",
+        "when": "editorTextFocus"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "snipit",
+          "title": "Snipit.sh",
+          "icon": "$(file-code)"
+        }
+      ]
+    },
+    "views": {
+      "snipit": [
+        {
+          "id": "snipitHistory",
+          "name": "Share History",
+          "icon": "$(history)",
+          "contextualTitle": "Snipit.sh History"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Snipit.sh",
+      "properties": {
+        "snipit.defaultExpiry": {
+          "type": "string",
+          "default": "24h",
+          "enum": [
+            "1h",
+            "24h",
+            "7d",
+            "30d",
+            "never"
+          ],
+          "enumDescriptions": [
+            "1 hour",
+            "24 hours",
+            "7 days",
+            "30 days",
+            "Never expires"
+          ],
+          "description": "Default expiry time for shared snippets"
+        },
+        "snipit.defaultVisibility": {
+          "type": "string",
+          "default": "public",
+          "enum": [
+            "public",
+            "password",
+            "burn"
+          ],
+          "enumDescriptions": [
+            "Public - Anyone with the link can view",
+            "Password Protected - Requires password to view",
+            "Burn After Read - Deletes after first view"
+          ],
+          "description": "Default visibility for shared snippets"
+        },
+        "snipit.apiUrl": {
+          "type": "string",
+          "default": "https://snipit.sh",
+          "description": "Snipit.sh API base URL"
+        },
+        "snipit.maxHistoryItems": {
+          "type": "number",
+          "default": 50,
+          "description": "Maximum number of items to keep in history"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "vsce package",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "esbuild": "^0.19.8",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.2"
+  }
+}
