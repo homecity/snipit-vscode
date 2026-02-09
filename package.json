@@ -3,7 +3,7 @@
   "displayName": "Snipit.sh - Secure Code Sharing",
   "description": "Share code snippets securely with AES-256 encryption",
   "version": "0.1.0",
-  "publisher": "snipit",
+  "publisher": "SteveYu",
   "repository": {
     "type": "git",
     "url": "https://github.com/snipit/snipit-vscode"
