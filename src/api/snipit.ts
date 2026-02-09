@@ -96,7 +96,6 @@ export async function createSnippet(options: SnippetOptions): Promise<{ url: str
   const apiUrl = getApiUrl();
   
   let requestBody: Record<string, unknown>;
-  let encryptionKey: string | undefined;
   
   // Calculate expiry timestamp
   const expiryMap: Record<string, number | null> = {
@@ -112,40 +111,16 @@ export async function createSnippet(options: SnippetOptions): Promise<{ url: str
     ? new Date(Date.now() + expirySeconds * 1000).toISOString()
     : undefined;
   
-  if (options.visibility === 'password' && options.password) {
-    // Password-protected: encrypt with password
-    const { encrypted, salt } = encryptWithPassword(options.content, options.password);
-    requestBody = {
-      encrypted,
-      salt,
-      language: options.language,
-      fileName: options.fileName,
-      visibility: 'password',
-      expiresAt
-    };
-  } else if (options.visibility === 'public') {
-    // Public: client-side encryption with key in URL fragment
-    const { encrypted, key } = encrypt(options.content);
-    encryptionKey = key;
-    requestBody = {
-      encrypted,
-      language: options.language,
-      fileName: options.fileName,
-      visibility: 'public',
-      expiresAt
-    };
-  } else {
-    // Burn after read: client-side encryption
-    const { encrypted, key } = encrypt(options.content);
-    encryptionKey = key;
-    requestBody = {
-      encrypted,
-      language: options.language,
-      fileName: options.fileName,
-      visibility: 'burn',
-      expiresAt
-    };
-  }
+  // snipit.sh API expects 'content' field directly
+  // Password protection and burn-after-read are handled server-side
+  requestBody = {
+    content: options.content,
+    language: options.language,
+    fileName: options.fileName,
+    visibility: options.visibility,
+    expiresAt,
+    password: options.password  // Server handles password protection
+  };
   
   const response = await makeRequest<CreateSnippetResponse>(
     'POST',
@@ -153,11 +128,8 @@ export async function createSnippet(options: SnippetOptions): Promise<{ url: str
     requestBody
   );
   
-  // Build the full URL with encryption key in fragment
-  let fullUrl = `${apiUrl}/${response.id}`;
-  if (encryptionKey) {
-    fullUrl += `#${encryptionKey}`;
-  }
+  // Build the full URL
+  const fullUrl = `${apiUrl}/${response.id}`;
   
   return {
     url: fullUrl,
