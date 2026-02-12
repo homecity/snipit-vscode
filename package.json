@@ -176,7 +176,8 @@
     "watch": "node esbuild.js --watch",
     "package": "vsce package",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node --test tests/*.test.js",
+    "test:unit": "node --test tests/*.test.js"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
