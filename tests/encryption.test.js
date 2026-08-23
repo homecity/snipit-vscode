@@ -2,9 +2,9 @@
  * Unit tests for encryption utilities
  * Using Node.js built-in test runner (v18+)
  */
-import { describe, it, beforeEach } from 'node:test';
-import assert from 'node:assert';
-import crypto from 'crypto';
+const { describe, it } = require('node:test');
+const assert = require('node:assert');
+const crypto = require('crypto');
 
 // Since the encryption module is TypeScript and imports vscode,
 // we'll test the pure encryption logic directly here
