@@ -174,7 +174,7 @@
     "vscode:prepublish": "npm run build",
     "build": "node esbuild.js",
     "watch": "node esbuild.js --watch",
-    "package": "vsce package",
+    "package": "npx --yes @vscode/vsce package",
     "lint": "eslint src --ext ts",
     "test": "node --test tests/encryption.test.js",
     "test:unit": "node --test tests/encryption.test.js"
