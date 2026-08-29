@@ -7,7 +7,7 @@
   "homepage": "https://snipit.sh",
   "repository": {
     "type": "git",
-    "url": "https://github.com/snipit/snipit-vscode"
+    "url": "https://github.com/homecity/snipit-vscode"
   },
   "engines": {
     "vscode": "^1.85.0"
