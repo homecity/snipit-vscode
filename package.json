@@ -1,9 +1,10 @@
 {
   "name": "snipit-vscode",
-  "displayName": "Snipit.sh - Secure Code Sharing",
-  "description": "Share code snippets securely with AES-256 encryption",
+  "displayName": "snipit.sh",
+  "description": "Share code from VS Code via snipit.sh — no login, expire, burn-after-read.",
   "version": "0.1.1",
   "publisher": "SteveYu",
+  "homepage": "https://snipit.sh",
   "repository": {
     "type": "git",
     "url": "https://github.com/snipit/snipit-vscode"
