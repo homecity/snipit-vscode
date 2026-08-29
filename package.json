@@ -1,12 +1,13 @@
 {
   "name": "snipit-vscode",
-  "displayName": "Snipit.sh - Secure Code Sharing",
-  "description": "Share code snippets securely with AES-256 encryption",
+  "displayName": "snipit.sh",
+  "description": "Share code from VS Code via snipit.sh — no login, expire, burn-after-read.",
   "version": "0.1.1",
   "publisher": "SteveYu",
+  "homepage": "https://snipit.sh",
   "repository": {
     "type": "git",
-    "url": "https://github.com/snipit/snipit-vscode"
+    "url": "https://github.com/homecity/snipit-vscode"
   },
   "engines": {
     "vscode": "^1.85.0"
@@ -174,9 +175,10 @@
     "vscode:prepublish": "npm run build",
     "build": "node esbuild.js",
     "watch": "node esbuild.js --watch",
-    "package": "vsce package",
+    "package": "npx --yes @vscode/vsce package",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node --test tests/encryption.test.js",
+    "test:unit": "node --test tests/encryption.test.js"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
